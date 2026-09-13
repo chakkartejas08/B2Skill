@@ -1,5 +1,6 @@
 import os
 from datetime import timedelta
+from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -11,18 +12,38 @@ def _env_bool(name, default=False):
     return val.strip().lower() in {"1", "true", "yes", "on"}
 
 
+def _normalize_database_url(url: str) -> str:
+    """
+    Makes a DATABASE_URL from any common host (Render, Neon, Heroku, etc.)
+    safe to hand to SQLAlchemy + psycopg2:
+      - postgres:// -> postgresql:// (SQLAlchemy 1.4+ requirement)
+      - strips channel_binding=... — some hosts (e.g. Neon) include this in
+        their connection strings, but the psycopg2 version pinned here
+        doesn't understand that parameter and errors with
+        "invalid channel_binding value". sslmode is left untouched, so the
+        connection is still encrypted.
+    """
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+
+    if "channel_binding" in url:
+        parts = urlsplit(url)
+        query_pairs = [(k, v) for k, v in parse_qsl(parts.query) if k != "channel_binding"]
+        url = urlunsplit(parts._replace(query=urlencode(query_pairs)))
+
+    return url
+
+
 class Config:
     """Base configuration shared by all environments."""
 
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-change-me")
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL", f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'biz2skill.db')}"
+    SQLALCHEMY_DATABASE_URI = _normalize_database_url(
+        os.environ.get(
+            "DATABASE_URL", f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'biz2skill.db')}"
+        )
     )
-    # Some hosts (Render, Heroku) provide postgres:// URLs, but SQLAlchemy 1.4+
-    # requires the postgresql:// scheme — normalize it automatically.
-    if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
-        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # ---- Platform business rules ----

@@ -2,6 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+  /* Set the theme before anything paints, so there's no flash of the
+     wrong theme on load. Reads a saved choice first, falls back to the
+     visitor's OS preference. */
+  (function () {
+    var stored = null;
+    try { stored = localStorage.getItem("b2skill-theme"); } catch (e) {}
+    var theme = (stored === "light" || stored === "dark")
+      ? stored
+      : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{% block title %}B2Skill AI{% endblock %}</title>
 <meta name="description" content="B2Skill AI turns small business goals into digital projects, and connects them with skilled students who can bring those ideas to life.">
@@ -47,6 +60,7 @@
 
 {% include "partials/footer.html" %}
 
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
 {% block extra_scripts %}{% endblock %}
 </body>
 </html>

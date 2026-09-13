@@ -9,9 +9,16 @@
     {% for app in applications %}
     <div class="border border-steel rounded-2xl p-6 bg-white">
       <div class="flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <p class="font-medium text-ink">{{ app.student.user.full_name }}</p>
-          <p class="text-xs text-inkmuted mt-0.5">{{ app.student.college or '' }} &middot; Rating: {{ app.student.average_rating() or 'New' }}</p>
+        <div class="flex items-center gap-3">
+          {% if app.student.photo_path %}
+          <img src="{{ url_for('main.uploaded_file', filename=app.student.photo_path) }}" alt="{{ app.student.user.full_name }}" class="w-10 h-10 rounded-full object-cover">
+          {% else %}
+          <span class="w-10 h-10 rounded-full bg-steel flex items-center justify-center font-medium text-ink text-sm">{{ app.student.user.full_name[:1] }}</span>
+          {% endif %}
+          <div>
+            <p class="font-medium text-ink">{{ app.student.user.full_name }}</p>
+            <p class="text-xs text-inkmuted mt-0.5">{{ app.student.college or '' }} &middot; Rating: {{ app.student.average_rating() or 'New' }}</p>
+          </div>
         </div>
         <span class="text-xs font-medium text-growth bg-growthlight px-2.5 py-1 rounded-full">{{ app.match_score or 0 }}% match</span>
       </div>

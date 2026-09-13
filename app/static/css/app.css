@@ -1,0 +1,225 @@
+:root {
+  --ink: #14213D;
+  --signal: #F2A93B;
+  --growth: #1F7A5C;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto; animation: none !important; transition: none !important; }
+}
+
+/* ---------------------------------------------------------------------
+   Blueprint texture + soft ambient glow. The grid ties the background to
+   the product's "bridge/blueprint" idea; the glow (amber + teal, not the
+   generic purple/blue SaaS combo) sits fixed behind the page and only
+   shows through paper-colored sections — solid white/navy sections further
+   down naturally cover it, so it reads as atmosphere near the top of the
+   page rather than a wash over everything.
+--------------------------------------------------------------------- */
+body {
+  background-image:
+    linear-gradient(rgba(20, 33, 61, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 33, 61, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center top;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(640px circle at 12% 8%, rgba(242, 169, 59, 0.16), transparent 60%),
+    radial-gradient(640px circle at 88% 22%, rgba(31, 122, 92, 0.14), transparent 60%);
+}
+
+/* ---------------------------------------------------------------------
+   Selection & scrollbar
+--------------------------------------------------------------------- */
+::selection {
+  background: var(--signal);
+  color: var(--ink);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF9F6;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8DCE3;
+  border-radius: 999px;
+  border: 3px solid #FAF9F6;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C3C9D3;
+}
+
+/* ---------------------------------------------------------------------
+   Focus & base interaction
+--------------------------------------------------------------------- */
+a, button {
+  outline-offset: 2px;
+}
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+a, button, input, textarea, select {
+  transition: all 0.18s var(--ease);
+}
+
+button:active, input[type="submit"]:active, a.rounded-full:active {
+  transform: scale(0.97);
+}
+
+/* ---------------------------------------------------------------------
+   Bold gradient headlines — reserved for marketing pages (landing hero,
+   About, How It Works) via their actual size classes, so dashboard/app
+   screens stay calm and legible rather than gaining flourish everywhere.
+--------------------------------------------------------------------- */
+h1.font-display.text-ink.text-4xl,
+h1.font-display.text-ink[class*="text-6xl"] {
+  background: linear-gradient(135deg, var(--ink) 0%, var(--growth) 55%, var(--ink) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---------------------------------------------------------------------
+   Primary CTA buttons (bg-signal, bg-ink, rounded-full) get a diagonal
+   shine sweep on hover — one signature motion, reserved for the buttons
+   that matter most, not applied to every link on the page.
+--------------------------------------------------------------------- */
+a.rounded-full.bg-signal,
+a.rounded-full.bg-ink,
+button.rounded-full.bg-ink,
+button.rounded-full.bg-growth {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+a.rounded-full.bg-signal::before,
+a.rounded-full.bg-ink::before,
+button.rounded-full.bg-ink::before,
+button.rounded-full.bg-growth::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.55s var(--ease);
+}
+a.rounded-full.bg-signal:hover::before,
+a.rounded-full.bg-ink:hover::before,
+button.rounded-full.bg-ink:hover::before,
+button.rounded-full.bg-growth:hover::before {
+  transform: translateX(120%);
+}
+a.rounded-full.bg-signal:hover,
+a.rounded-full.bg-ink:hover {
+  box-shadow: 0 10px 24px -8px rgba(20, 33, 61, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------------------
+   Card lift — scoped to actual links sharing the app's card pattern, so
+   static info tiles stay put and only genuinely clickable cards react.
+--------------------------------------------------------------------- */
+a.border.border-steel.rounded-2xl,
+a.border.border-steel.rounded-xl {
+  box-shadow: 0 1px 2px rgba(20, 33, 61, 0.04);
+}
+a.border.border-steel.rounded-2xl:hover,
+a.border.border-steel.rounded-xl:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -20px rgba(20, 33, 61, 0.32);
+  border-color: var(--ink);
+}
+
+/* ---------------------------------------------------------------------
+   The bridge divider — a literal beam with two support marks, echoing
+   the product's core idea. Used sparingly, not repeated as decoration.
+--------------------------------------------------------------------- */
+.bridge-span {
+  position: relative;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ink) 0%, var(--signal) 50%, var(--growth) 100%);
+}
+.bridge-span::before,
+.bridge-span::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--ink);
+}
+.bridge-span::before { left: 0; }
+.bridge-span::after { right: 0; background: var(--growth); }
+
+.hero-fade-in {
+  animation: heroFadeIn 0.7s ease-out both;
+}
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero product card gets a genuine glass treatment — the single focal
+   object on the page, so it earns real depth and a frosted surface
+   rather than flat white. */
+.hero-fade-in .rounded-3xl {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(20, 33, 61, 0.08) !important;
+  box-shadow: 0 32px 64px -24px rgba(20, 33, 61, 0.28);
+}
+
+/* Quiet, slowly breathing glow behind the closing dark CTA — the one
+   bold, animated moment on the page, not scattered elsewhere. */
+section.bg-ink {
+  position: relative;
+  overflow: hidden;
+}
+section.bg-ink::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(242, 169, 59, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+  animation: ctaGlowBreathe 6s ease-in-out infinite;
+}
+@keyframes ctaGlowBreathe {
+  0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+}
+section.bg-ink > * {
+  position: relative;
+}
+
+.score-ring circle {
+  transition: stroke-dashoffset 0.8s ease;
+}
+
+.h-1\.5.rounded-full.bg-steel > div {
+  transition: width 0.6s var(--ease);
+}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — B2Skill AI{% endblock %}
+{% block content %}
+<section class="max-w-6xl mx-auto px-5 sm:px-8 py-12">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <p class="text-sm text-inkmuted">{{ profile.business_name }}</p>
+      <h1 class="font-display text-3xl font-semibold text-ink">Dashboard</h1>
+    </div>
+    <div class="flex gap-3">
+      <a href="{{ url_for('business.health_check') }}" class="px-5 py-2.5 rounded-full bg-signal text-ink text-sm font-medium hover:bg-signaldark">Run Health Check</a>
+      <a href="{{ url_for('business.edit_profile') }}" class="px-5 py-2.5 rounded-full border border-steel text-sm font-medium hover:border-ink">Edit Profile</a>
+    </div>
+  </div>
+
+  {% if diagnosis %}
+  <div class="mt-8 border border-steel rounded-2xl p-6 bg-white flex items-center justify-between flex-wrap gap-6">
+    <div>
+      <p class="text-xs text-inkmuted mb-1">Latest Digital Health Score</p>
+      <p class="font-display text-4xl font-semibold text-ink">{{ diagnosis.overall_score }}<span class="text-lg text-inkmuted">/100</span></p>
+    </div>
+    <a href="{{ url_for('business.diagnosis_result', diagnosis_id=diagnosis.id) }}" class="px-5 py-2.5 rounded-full border border-steel text-sm font-medium hover:border-ink">View recommendations</a>
+  </div>
+  {% else %}
+  <div class="mt-8 border border-dashed border-steel rounded-2xl p-8 text-center bg-white">
+    <p class="text-ink font-medium">You haven't run a Digital Health Check yet.</p>
+    <p class="text-sm text-inkmuted mt-1">Tell us your goal and we'll show you exactly what to prioritize.</p>
+    <a href="{{ url_for('business.health_check') }}" class="mt-5 inline-block px-6 py-3 rounded-full bg-ink text-paper text-sm font-medium hover:bg-ink/90">Run Digital Health Check</a>
+  </div>
+  {% endif %}
+
+  <div class="mt-10">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="font-medium text-ink">Your projects</h2>
+      <div class="flex gap-3">
+        <a href="{{ url_for('business.find_students') }}" class="text-sm text-growth hover:underline">Find students</a>
+        <a href="{{ url_for('projects.create') }}" class="text-sm text-growth hover:underline">New project</a>
+      </div>
+    </div>
+    {% if projects %}
+      <ul class="space-y-3">
+        {% for p in projects %}
+        <li class="border border-steel rounded-xl p-4 bg-white flex items-center justify-between">
+          <div>
+            <a href="{{ url_for('projects.detail', project_id=p.id) }}" class="font-medium text-ink hover:text-growth">{{ p.title }}</a>
+            <p class="text-xs text-inkmuted mt-0.5">&#8377;{{ '{:,.0f}'.format(p.budget_amount) }} &middot; {{ p.application_count() }} applications</p>
+          </div>
+          <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-steel/60 text-inkmuted">{{ p.status|replace('_',' ')|title }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-sm text-inkmuted">No projects yet — run a health check to get recommendations, or <a href="{{ url_for('projects.create') }}" class="text-growth hover:underline">create one manually</a>.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Digital Health Check — B2Skill AI{% endblock %}
+{% block content %}
+<section class="max-w-xl mx-auto px-5 py-14">
+  <p class="text-sm font-medium text-signaldark mb-2">AI Digital Health Check</p>
+  <h1 class="font-display text-3xl font-semibold text-ink">Tell us where you stand.</h1>
+  <p class="mt-2 text-sm text-inkmuted">Recommendations are suggestions, not guarantees — you always review before publishing anything.</p>
+
+  <form method="POST" class="mt-8 space-y-5">
+    {{ form.hidden_tag() }}
+
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.goal_text.label.text }}</label>
+      {{ form.goal_text(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none", rows=3) }}
+    </div>
+
+    <div class="border border-steel rounded-xl p-5 bg-white space-y-3">
+      <label class="flex items-center gap-3 text-sm text-ink">{{ form.has_website() }} {{ form.has_website.label.text }}</label>
+      <label class="flex items-center gap-3 text-sm text-ink">{{ form.has_online_ordering() }} {{ form.has_online_ordering.label.text }}</label>
+      <label class="flex items-center gap-3 text-sm text-ink">{{ form.has_online_booking() }} {{ form.has_online_booking.label.text }}</label>
+      <label class="flex items-center gap-3 text-sm text-ink">{{ form.has_google_business() }} {{ form.has_google_business.label.text }}</label>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.social_media_activity.label.text }}</label>
+      {{ form.social_media_activity(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.target_customers.label.text }}</label>
+      {{ form.target_customers(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+    </div>
+
+    {{ form.submit(class="w-full py-3.5 rounded-full bg-signal text-ink font-medium hover:bg-signaldark cursor-pointer") }}
+  </form>
+</section>
+{% endblock %}

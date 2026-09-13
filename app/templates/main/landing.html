@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block title %}B2Skill AI — Turn Business Goals Into Digital Growth{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="max-w-6xl mx-auto px-5 sm:px-8 pt-16 pb-20 grid lg:grid-cols-2 gap-14 items-center">
+  <div class="hero-fade-in">
+    <p class="text-sm font-medium text-growth mb-4">For small businesses &amp; student talent</p>
+    <h1 class="font-display text-[2.75rem] sm:text-6xl leading-[1.05] font-semibold text-ink max-w-lg">
+      Turn your business goals into digital growth.
+    </h1>
+    <p class="mt-6 text-lg text-inkmuted max-w-md leading-relaxed">
+      B2Skill AI helps local businesses discover what they actually need, turns that into real projects, and connects them with skilled students ready to build it.
+    </p>
+    <div class="mt-9 flex flex-wrap items-center gap-4">
+      <a href="{{ url_for('auth.register') }}" class="px-6 py-3.5 rounded-full bg-ink text-paper font-medium hover:bg-ink/90 transition-colors">Get Your Business Analysis</a>
+      <a href="{{ url_for('projects.browse') }}" class="px-6 py-3.5 rounded-full border border-steel text-ink font-medium hover:border-ink transition-colors">Find Projects</a>
+    </div>
+  </div>
+
+  <div class="hero-fade-in" style="animation-delay: .1s">
+    <!-- Literal "bridge" visual: a business goal on one side, a student outcome
+         on the other, connected by the platform's analysis step. -->
+    <div class="relative bg-white border border-steel rounded-3xl p-8 shadow-[0_1px_0_rgba(20,33,61,0.04)]">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex-1">
+          <p class="text-xs font-medium text-inkmuted mb-2">Business says</p>
+          <p class="font-display text-xl text-ink leading-snug">"I want more customers finding us online."</p>
+        </div>
+      </div>
+
+      <div class="my-7 bridge-span"></div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div class="border border-steel rounded-xl p-3 bg-paper">
+          <p class="text-xs text-inkmuted mb-1">Digital Health</p>
+          <p class="font-display text-2xl font-semibold text-signaldark">62<span class="text-sm text-inkmuted">/100</span></p>
+        </div>
+        <div class="border border-steel rounded-xl p-3 bg-paper">
+          <p class="text-xs text-inkmuted mb-1">Priority</p>
+          <p class="font-medium text-ink text-sm mt-1.5">Website + Booking</p>
+        </div>
+        <div class="border border-steel rounded-xl p-3 bg-growthlight">
+          <p class="text-xs text-growth mb-1">Match</p>
+          <p class="font-display text-2xl font-semibold text-growth">94%</p>
+        </div>
+      </div>
+
+      <div class="mt-7 flex items-center gap-3 border-t border-steel pt-5">
+        <span class="w-9 h-9 rounded-full bg-steel flex items-center justify-center text-sm font-medium text-ink">RS</span>
+        <div>
+          <p class="text-sm font-medium text-ink">Rohan builds the booking form</p>
+          <p class="text-xs text-inkmuted">Flask &middot; HTML/CSS &middot; 10-day project</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="border-t border-steel">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
+    <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink max-w-md">How it works</h2>
+
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% set steps = [
+        ("Tell us your business goal", "Describe what you're trying to achieve — no technical jargon needed.", "ink"),
+        ("AI analyzes your digital presence", "We look at your website, socials, and customer touchpoints.", "ink"),
+        ("Get a prioritized improvement plan", "See exactly what matters most, and what it might cost.", "signal"),
+        ("Connect with suitable student talent", "Review matched students and pick who brings it to life.", "growth"),
+      ] %}
+      {% for title, desc, color in steps %}
+      <div>
+        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium mb-4
+          {% if color == 'signal' %}bg-signal text-ink{% elif color == 'growth' %}bg-growth text-paper{% else %}bg-ink text-paper{% endif %}">
+          {{ loop.index }}
+        </div>
+        <h3 class="font-medium text-ink text-lg leading-snug">{{ title }}</h3>
+        <p class="mt-2 text-sm text-inkmuted leading-relaxed">{{ desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- FOR BUSINESSES -->
+<section id="for-businesses" class="border-t border-steel bg-white">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-20 grid lg:grid-cols-2 gap-14 items-center">
+    <div>
+      <p class="text-sm font-medium text-signaldark mb-3">For businesses</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink leading-tight">You don't need to know what you need.</h2>
+      <p class="mt-5 text-inkmuted leading-relaxed max-w-md">Describe your goal in plain language. B2Skill AI runs a Digital Health Check, scores where you stand, and turns the gaps into projects you can publish in one click — free to use, with no subscriptions.</p>
+      <ul class="mt-7 space-y-3 text-sm text-ink">
+        <li class="flex gap-3"><span class="text-growth">&#10003;</span> Free Digital Health Check &amp; recommendations</li>
+        <li class="flex gap-3"><span class="text-growth">&#10003;</span> AI-generated project briefs you edit before publishing</li>
+        <li class="flex gap-3"><span class="text-growth">&#10003;</span> 9% commission — only when a project is funded</li>
+      </ul>
+      <a href="{{ url_for('auth.register') }}" class="mt-8 inline-block px-6 py-3 rounded-full bg-ink text-paper font-medium hover:bg-ink/90 transition-colors">Start as a business</a>
+    </div>
+    <div class="border border-steel rounded-3xl p-7 bg-paper">
+      <p class="text-xs text-inkmuted mb-4">Digital Health Score</p>
+      <div class="flex items-end gap-6">
+        <p class="font-display text-6xl font-semibold text-ink">72<span class="text-2xl text-inkmuted">/100</span></p>
+        <div class="flex-1 space-y-2 pb-2">
+          {% for label, pct, color in [("Website", 40, "bg-red-400"), ("Social Media", 70, "bg-signal"), ("Conversion", 85, "bg-growth")] %}
+          <div>
+            <div class="flex justify-between text-xs text-inkmuted mb-1"><span>{{ label }}</span></div>
+            <div class="h-1.5 rounded-full bg-steel overflow-hidden"><div class="h-full {{ color }}" style="width: {{ pct }}%"></div></div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR STUDENTS -->
+<section id="for-students" class="border-t border-steel">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-20 grid lg:grid-cols-2 gap-14 items-center">
+    <div class="order-2 lg:order-1 border border-steel rounded-3xl p-7 bg-white">
+      <p class="text-xs text-inkmuted mb-4">Verified project experience</p>
+      <div class="space-y-4">
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="font-medium text-ink">Restaurant Website</p>
+            <p class="text-xs text-inkmuted mt-0.5">Frontend Developer &middot; 10 days</p>
+          </div>
+          <span class="text-xs font-medium text-growth bg-growthlight px-2.5 py-1 rounded-full">Verified</span>
+        </div>
+        <div class="bridge-span"></div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-inkmuted">Client rating</span>
+          <span class="font-medium text-ink">4.8 / 5</span>
+        </div>
+      </div>
+    </div>
+    <div class="order-1 lg:order-2">
+      <p class="text-sm font-medium text-growth mb-3">For students</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink leading-tight">Turn real skills into real experience.</h2>
+      <p class="mt-5 text-inkmuted leading-relaxed max-w-md">Browse projects matched to what you actually know, apply with an AI-assisted proposal, and walk away with verified project history — not just another certificate.</p>
+      <ul class="mt-7 space-y-3 text-sm text-ink">
+        <li class="flex gap-3"><span class="text-growth">&#10003;</span> Free to join, apply, and message businesses</li>
+        <li class="flex gap-3"><span class="text-growth">&#10003;</span> AI match score explains why a project fits you</li>
+        <li class="flex gap-3"><span class="text-growth">&#10003;</span> Verified project history businesses can trust</li>
+      </ul>
+      <a href="{{ url_for('auth.register') }}" class="mt-8 inline-block px-6 py-3 rounded-full border border-ink text-ink font-medium hover:bg-ink hover:text-paper transition-colors">Start as a student</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="border-t border-steel bg-ink">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-20 text-center">
+    <h2 class="font-display text-3xl sm:text-4xl font-semibold text-paper max-w-lg mx-auto leading-tight">Ready to bridge the gap between goals and growth?</h2>
+    <a href="{{ url_for('auth.register') }}" class="mt-8 inline-block px-7 py-3.5 rounded-full bg-signal text-ink font-medium hover:bg-signaldark transition-colors">Get started for free</a>
+  </div>
+</section>
+
+{% endblock %}

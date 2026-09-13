@@ -1,0 +1,29 @@
+<footer class="border-t border-steel mt-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+    <div class="col-span-2">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="w-2.5 h-2.5 rounded-full bg-signal"></span>
+        <span class="font-display text-lg font-semibold text-ink">B2Skill <span class="text-growth">AI</span></span>
+      </div>
+      <p class="text-inkmuted max-w-xs">The AI-powered bridge between small local businesses and emerging student talent.</p>
+    </div>
+    <div>
+      <p class="font-medium text-ink mb-3">Platform</p>
+      <ul class="space-y-2 text-inkmuted">
+        <li><a href="{{ url_for('main.landing') }}#how-it-works" class="hover:text-ink">How It Works</a></li>
+        <li><a href="{{ url_for('projects.browse') }}" class="hover:text-ink">Browse Projects</a></li>
+        <li><a href="{{ url_for('main.about') }}" class="hover:text-ink">About</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-medium text-ink mb-3">Get Started</p>
+      <ul class="space-y-2 text-inkmuted">
+        <li><a href="{{ url_for('auth.register') }}" class="hover:text-ink">Create an account</a></li>
+        <li><a href="{{ url_for('auth.login') }}" class="hover:text-ink">Log in</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-steel">
+    <p class="max-w-6xl mx-auto px-5 sm:px-8 py-5 text-xs text-inkmuted">&copy; 2026 B2Skill AI. Built for local businesses and student talent.</p>
+  </div>
+</footer>

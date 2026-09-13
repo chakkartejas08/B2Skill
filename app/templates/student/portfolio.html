@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Portfolio — B2Skill AI{% endblock %}
+{% block content %}
+<section class="max-w-2xl mx-auto px-5 py-14">
+  <h1 class="font-display text-3xl font-semibold text-ink">Your portfolio</h1>
+  <p class="mt-2 text-sm text-inkmuted">Show businesses what you can actually do.</p>
+
+  <form method="POST" enctype="multipart/form-data" class="mt-8 border border-steel rounded-2xl p-6 bg-white space-y-4">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="text" name="title" placeholder="Project title" required class="w-full border border-steel rounded-xl px-4 py-3 focus:border-ink outline-none">
+    <textarea name="description" placeholder="What did you build?" rows="3" class="w-full border border-steel rounded-xl px-4 py-3 focus:border-ink outline-none"></textarea>
+    <input type="text" name="technologies" placeholder="Technologies used (comma separated)" class="w-full border border-steel rounded-xl px-4 py-3 focus:border-ink outline-none">
+    <input type="url" name="external_url" placeholder="Link (optional)" class="w-full border border-steel rounded-xl px-4 py-3 focus:border-ink outline-none">
+    <input type="file" name="image" accept="image/*" class="w-full text-sm text-inkmuted">
+    <button type="submit" class="px-5 py-3 rounded-xl bg-ink text-paper text-sm font-medium hover:bg-ink/90">Add to portfolio</button>
+  </form>
+
+  <div class="mt-10 grid sm:grid-cols-2 gap-5">
+    {% for p in projects %}
+    <div class="border border-steel rounded-2xl p-5 bg-white">
+      <div class="flex items-start justify-between">
+        <p class="font-medium text-ink">{{ p.title }}</p>
+        <form method="POST" action="{{ url_for('student.delete_portfolio_item', project_id=p.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="text-xs text-inkmuted hover:text-red-600">Remove</button>
+        </form>
+      </div>
+      {% if p.description %}<p class="text-sm text-inkmuted mt-2">{{ p.description }}</p>{% endif %}
+      {% if p.technologies %}<p class="text-xs text-inkmuted mt-2">{{ p.technologies }}</p>{% endif %}
+      {% if p.external_url %}<a href="{{ p.external_url }}" target="_blank" class="text-xs text-growth hover:underline mt-2 inline-block">View project &rarr;</a>{% endif %}
+    </div>
+    {% else %}
+    <p class="text-sm text-inkmuted">No portfolio items yet.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

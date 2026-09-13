@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Users — Admin{% endblock %}
+{% block content %}
+<section class="max-w-5xl mx-auto px-5 py-12">
+  <h1 class="font-display text-3xl font-semibold text-ink">Users</h1>
+
+  <div class="mt-6 flex gap-2 text-sm">
+    <a href="{{ url_for('admin.users') }}" class="px-3 py-1.5 rounded-full {% if not role_filter %}bg-ink text-paper{% else %}border border-steel text-inkmuted{% endif %}">All</a>
+    <a href="{{ url_for('admin.users', role='student') }}" class="px-3 py-1.5 rounded-full {% if role_filter=='student' %}bg-ink text-paper{% else %}border border-steel text-inkmuted{% endif %}">Students</a>
+    <a href="{{ url_for('admin.users', role='business') }}" class="px-3 py-1.5 rounded-full {% if role_filter=='business' %}bg-ink text-paper{% else %}border border-steel text-inkmuted{% endif %}">Businesses</a>
+  </div>
+
+  <div class="mt-6 border border-steel rounded-2xl bg-white divide-y divide-steel">
+    {% for u in users %}
+    <div class="p-4 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <p class="font-medium text-ink">{{ u.full_name }} <span class="text-xs text-inkmuted font-normal">({{ u.role }})</span></p>
+        <p class="text-xs text-inkmuted">{{ u.email }}</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-xs px-2.5 py-1 rounded-full {% if u.is_suspended %}bg-red-50 text-red-600{% else %}bg-growthlight text-growth{% endif %}">{% if u.is_suspended %}Suspended{% else %}Active{% endif %}</span>
+        <form method="POST" action="{{ url_for('admin.toggle_suspend', user_id=u.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="text-xs font-medium text-inkmuted hover:text-ink">{% if u.is_suspended %}Reactivate{% else %}Suspend{% endif %}</button>
+        </form>
+      </div>
+    </div>
+    {% else %}
+    <p class="p-4 text-sm text-inkmuted">No users found.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

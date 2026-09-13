@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Your Digital Health Score — B2Skill AI{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto px-5 py-14">
+  <p class="text-sm font-medium text-signaldark mb-2">Digital Health Check results</p>
+
+  <div class="border border-steel rounded-2xl p-8 bg-white flex items-center gap-8 flex-wrap">
+    <p class="font-display text-6xl font-semibold text-ink">{{ diagnosis.overall_score }}<span class="text-2xl text-inkmuted">/100</span></p>
+    <div class="flex-1 min-w-[220px] space-y-2.5">
+      {% set cats = [
+        ("Website", diagnosis.score_website),
+        ("Online Presence", diagnosis.score_online_presence),
+        ("Social Media", diagnosis.score_social_media),
+        ("Customer Accessibility", diagnosis.score_customer_accessibility),
+        ("Digital Marketing", diagnosis.score_digital_marketing),
+        ("Online Conversion", diagnosis.score_online_conversion),
+      ] %}
+      {% for label, score in cats %}
+      <div>
+        <div class="flex justify-between text-xs text-inkmuted mb-1"><span>{{ label }}</span><span>{{ score }}</span></div>
+        <div class="h-1.5 rounded-full bg-steel overflow-hidden"><div class="h-full bg-growth" style="width: {{ score }}%"></div></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="mt-10">
+    <h2 class="font-medium text-ink mb-4">Problems detected</h2>
+    <ul class="space-y-2">
+      {% for p in problems %}
+      <li class="text-sm text-inkmuted border border-steel rounded-xl px-4 py-3 bg-white">{{ p }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="mt-10">
+    <h2 class="font-medium text-ink mb-4">Recommendations</h2>
+    <div class="space-y-4">
+      {% for r in recommendations %}
+      <div class="border border-steel rounded-2xl p-6 bg-white">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <span class="text-xs font-medium px-2.5 py-1 rounded-full
+              {% if r.priority == 'HIGH' %}bg-red-50 text-red-600
+              {% elif r.priority == 'MEDIUM' %}bg-amber-50 text-amber-700
+              {% else %}bg-steel/60 text-inkmuted{% endif %}">{{ r.priority }}</span>
+            <h3 class="font-medium text-ink text-lg mt-2">{{ r.problem }}</h3>
+          </div>
+          {% if not r.converted_to_project %}
+          <a href="{{ url_for('projects.create', from_recommendation=r.id) }}" class="shrink-0 px-4 py-2 rounded-full bg-ink text-paper text-sm font-medium hover:bg-ink/90">Create Project</a>
+          {% else %}
+          <span class="shrink-0 text-xs text-growth font-medium">Converted &#10003;</span>
+          {% endif %}
+        </div>
+        <p class="text-sm text-inkmuted mt-3">{{ r.why_it_matters }}</p>
+        <p class="text-sm text-ink mt-2"><span class="font-medium">Suggested solution:</span> {{ r.suggested_solution }}</p>
+        <div class="mt-4 flex flex-wrap gap-4 text-xs text-inkmuted">
+          <span>Complexity: {{ r.estimated_complexity|title }}</span>
+          <span>Budget: &#8377;{{ '{:,.0f}'.format(r.suggested_budget_min) }}&ndash;&#8377;{{ '{:,.0f}'.format(r.suggested_budget_max) }}</span>
+          <span>Skills: {{ r.required_skills }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

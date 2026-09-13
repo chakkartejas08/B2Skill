@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Skills — B2Skill AI{% endblock %}
+{% block content %}
+<section class="max-w-xl mx-auto px-5 py-14">
+  <h1 class="font-display text-3xl font-semibold text-ink">Your skills</h1>
+  <p class="mt-2 text-sm text-inkmuted">Skills power your project matches — keep this current.</p>
+
+  <form method="POST" class="mt-8 flex gap-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="text" name="skill_name" placeholder="e.g. Flask" required
+      class="flex-1 border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none">
+    <input type="number" name="level" min="0" max="100" value="60" title="Skill level 0-100"
+      class="w-24 border border-steel rounded-xl px-3 py-3 bg-white focus:border-ink outline-none">
+    <button type="submit" class="px-5 py-3 rounded-xl bg-ink text-paper text-sm font-medium hover:bg-ink/90">Add</button>
+  </form>
+
+  <ul class="mt-8 space-y-3">
+    {% for s in skills %}
+    <li class="border border-steel rounded-xl p-4 bg-white flex items-center justify-between">
+      <div class="flex-1">
+        <div class="flex justify-between text-sm mb-1.5">
+          <span class="font-medium text-ink">{{ s.skill.name }}</span>
+          <span class="text-inkmuted">{{ s.level }}%</span>
+        </div>
+        <div class="h-1.5 rounded-full bg-steel overflow-hidden"><div class="h-full bg-growth" style="width: {{ s.level }}%"></div></div>
+      </div>
+      <form method="POST" action="{{ url_for('student.delete_skill', skill_id=s.id) }}" class="ml-4">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="text-xs text-inkmuted hover:text-red-600">Remove</button>
+      </form>
+    </li>
+    {% else %}
+    <p class="text-sm text-inkmuted">No skills added yet.</p>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

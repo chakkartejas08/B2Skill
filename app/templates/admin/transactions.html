@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Transactions — Admin{% endblock %}
+{% block content %}
+<section class="max-w-5xl mx-auto px-5 py-12">
+  <h1 class="font-display text-3xl font-semibold text-ink">Transactions</h1>
+
+  <div class="mt-6 overflow-x-auto border border-steel rounded-2xl bg-white">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-left text-xs text-inkmuted border-b border-steel">
+          <th class="p-4">Date</th>
+          <th class="p-4">Gross</th>
+          <th class="p-4">Commission %</th>
+          <th class="p-4">Commission</th>
+          <th class="p-4">Student payout</th>
+          <th class="p-4">Status</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-steel">
+        {% for t in transactions %}
+        <tr>
+          <td class="p-4 text-inkmuted">{{ t.created_at.strftime('%b %d, %Y') }}</td>
+          <td class="p-4 text-ink font-medium">&#8377;{{ '{:,.2f}'.format(t.gross_amount) }}</td>
+          <td class="p-4 text-inkmuted">{{ t.commission_percent }}%</td>
+          <td class="p-4 text-ink">&#8377;{{ '{:,.2f}'.format(t.commission_amount) }}</td>
+          <td class="p-4 text-ink">&#8377;{{ '{:,.2f}'.format(t.student_payout_amount) }}</td>
+          <td class="p-4"><span class="text-xs px-2.5 py-1 rounded-full bg-steel/60 text-inkmuted">{{ t.status|replace('_',' ')|title }}</span></td>
+        </tr>
+        {% else %}
+        <tr><td class="p-4 text-inkmuted" colspan="6">No transactions yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

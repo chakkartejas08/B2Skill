@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}My Applications — B2Skill AI{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto px-5 py-14">
+  <h1 class="font-display text-3xl font-semibold text-ink">My applications</h1>
+
+  <ul class="mt-8 space-y-3">
+    {% for app in applications %}
+    <li class="border border-steel rounded-xl p-5 bg-white flex items-center justify-between">
+      <div>
+        <a href="{{ url_for('projects.detail', project_id=app.project_id) }}" class="font-medium text-ink hover:text-growth">{{ app.project.title }}</a>
+        <p class="text-xs text-inkmuted mt-1">Applied {{ app.created_at.strftime('%b %d, %Y') }} &middot; Match {{ app.match_score or '—' }}%</p>
+      </div>
+      <span class="text-xs font-medium px-2.5 py-1 rounded-full
+        {% if app.status == 'accepted' %}bg-growthlight text-growth
+        {% elif app.status == 'rejected' %}bg-red-50 text-red-600
+        {% else %}bg-steel/60 text-inkmuted{% endif %}">{{ app.status|replace('_',' ')|title }}</span>
+    </li>
+    {% else %}
+    <p class="text-sm text-inkmuted">You haven't applied to any projects yet.</p>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Settings — Admin{% endblock %}
+{% block content %}
+<section class="max-w-md mx-auto px-5 py-12">
+  <h1 class="font-display text-3xl font-semibold text-ink">Platform settings</h1>
+
+  <form method="POST" class="mt-8 space-y-5">
+    {{ form.hidden_tag() }}
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.commission_percent.label.text }}</label>
+      {{ form.commission_percent(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+      <p class="text-xs text-inkmuted mt-1">Applies to all newly funded projects going forward.</p>
+    </div>
+    {{ form.submit(class="w-full py-3.5 rounded-full bg-ink text-paper font-medium hover:bg-ink/90 cursor-pointer") }}
+  </form>
+</section>
+{% endblock %}

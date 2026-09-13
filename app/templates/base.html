@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}B2Skill AI{% endblock %}</title>
+<meta name="description" content="B2Skill AI turns small business goals into digital projects, and connects them with skilled students who can bring those ideas to life.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#14213D',
+          inkmuted: '#5B6472',
+          paper: '#FAF9F6',
+          steel: '#E4E7EC',
+          signal: '#F2A93B',
+          signaldark: '#D98E1E',
+          growth: '#1F7A5C',
+          growthlight: '#E7F3EE',
+        },
+        fontFamily: {
+          display: ['Fraunces', 'serif'],
+          sans: ['Inter', 'sans-serif'],
+        },
+      },
+    },
+  }
+</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+{% block extra_head %}{% endblock %}
+</head>
+<body class="bg-paper text-ink font-sans antialiased min-h-screen flex flex-col">
+
+{% include "partials/navbar.html" %}
+
+<main class="flex-1">
+  {% include "partials/flash_messages.html" %}
+  {% block content %}{% endblock %}
+</main>
+
+{% include "partials/footer.html" %}
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Applications — {{ project.title }}{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto px-5 py-14">
+  <a href="{{ url_for('projects.detail', project_id=project.id) }}" class="text-sm text-inkmuted hover:text-ink">&larr; {{ project.title }}</a>
+  <h1 class="font-display text-3xl font-semibold text-ink mt-2">Applications ({{ applications|length }})</h1>
+
+  <div class="mt-8 space-y-5">
+    {% for app in applications %}
+    <div class="border border-steel rounded-2xl p-6 bg-white">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <p class="font-medium text-ink">{{ app.student.user.full_name }}</p>
+          <p class="text-xs text-inkmuted mt-0.5">{{ app.student.college or '' }} &middot; Rating: {{ app.student.average_rating() or 'New' }}</p>
+        </div>
+        <span class="text-xs font-medium text-growth bg-growthlight px-2.5 py-1 rounded-full">{{ app.match_score or 0 }}% match</span>
+      </div>
+      <p class="text-sm text-ink mt-4">{{ app.cover_message }}</p>
+      {% if app.relevant_experience %}<p class="text-sm text-inkmuted mt-2">{{ app.relevant_experience }}</p>{% endif %}
+      <div class="mt-3 flex flex-wrap gap-4 text-xs text-inkmuted">
+        {% if app.proposed_timeline_days %}<span>Timeline: {{ app.proposed_timeline_days }} days</span>{% endif %}
+        {% if app.proposed_price %}<span>Proposed: &#8377;{{ '{:,.0f}'.format(app.proposed_price) }}</span>{% endif %}
+        <span>Status: {{ app.status|title }}</span>
+      </div>
+
+      {% if app.status == 'pending' or app.status == 'shortlisted' %}
+      <div class="mt-4 flex gap-3">
+        {% if app.status == 'pending' %}
+        <form method="POST" action="{{ url_for('projects.update_application', project_id=project.id, application_id=app.id, action='shortlist') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="px-4 py-2 rounded-full border border-steel text-sm font-medium hover:border-ink">Shortlist</button>
+        </form>
+        {% endif %}
+        <form method="POST" action="{{ url_for('projects.update_application', project_id=project.id, application_id=app.id, action='accept') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="px-4 py-2 rounded-full bg-growth text-paper text-sm font-medium hover:bg-growth/90">Accept &amp; fund project</button>
+        </form>
+        <form method="POST" action="{{ url_for('projects.update_application', project_id=project.id, application_id=app.id, action='reject') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="px-4 py-2 rounded-full text-sm font-medium text-red-600 hover:bg-red-50">Reject</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+    {% else %}
+    <p class="text-sm text-inkmuted">No applications yet.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

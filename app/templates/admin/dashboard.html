@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — B2Skill AI{% endblock %}
+{% block content %}
+<section class="max-w-6xl mx-auto px-5 sm:px-8 py-12">
+  <h1 class="font-display text-3xl font-semibold text-ink">Admin overview</h1>
+
+  <div class="mt-8 flex gap-3 text-sm">
+    <a href="{{ url_for('admin.users') }}" class="text-inkmuted hover:text-ink">Users</a>
+    <span class="text-steel">/</span>
+    <a href="{{ url_for('admin.projects') }}" class="text-inkmuted hover:text-ink">Projects</a>
+    <span class="text-steel">/</span>
+    <a href="{{ url_for('admin.transactions') }}" class="text-inkmuted hover:text-ink">Transactions</a>
+    <span class="text-steel">/</span>
+    <a href="{{ url_for('admin.reports') }}" class="text-inkmuted hover:text-ink">Reports</a>
+    <span class="text-steel">/</span>
+    <a href="{{ url_for('admin.settings') }}" class="text-inkmuted hover:text-ink">Settings</a>
+  </div>
+
+  <div class="mt-8 grid sm:grid-cols-3 lg:grid-cols-6 gap-4">
+    {% for label, value in [
+      ("Students", total_students), ("Businesses", total_businesses),
+      ("Active projects", active_projects), ("Completed", completed_projects),
+      ("Transactions", total_transactions), ("Open reports", pending_reports)
+    ] %}
+    <div class="border border-steel rounded-2xl p-4 bg-white">
+      <p class="text-xs text-inkmuted">{{ label }}</p>
+      <p class="font-display text-2xl font-semibold text-ink mt-1">{{ value }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="mt-6 border border-steel rounded-2xl p-6 bg-white">
+    <p class="text-xs text-inkmuted">Platform revenue (released commissions)</p>
+    <p class="font-display text-4xl font-semibold text-growth mt-1">&#8377;{{ '{:,.2f}'.format(platform_revenue) }}</p>
+  </div>
+</section>
+{% endblock %}

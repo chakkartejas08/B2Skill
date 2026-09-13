@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}How It Works — B2Skill AI{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto px-5 py-20">
+  <h1 class="font-display text-4xl font-semibold text-ink">How B2Skill AI works</h1>
+  <p class="mt-4 text-inkmuted leading-relaxed">The AI solves the problem before the marketplace even starts. Here's the full path from a business goal to a completed project.</p>
+
+  <ol class="mt-12 space-y-10 border-l border-steel pl-8">
+    {% set steps = [
+      ("Describe your business goal", "No technical jargon required — just tell us what you're trying to achieve."),
+      ("AI runs a Digital Health Check", "We score your website, online presence, social media, accessibility, marketing, and conversion."),
+      ("Get a prioritized plan", "Recommendations are ranked HIGH / MEDIUM / LOW, each with a suggested budget and required skills."),
+      ("Turn a recommendation into a project", "One click generates an editable project brief — you always review before publishing."),
+      ("Review matched students", "See an explainable match score based on skills, ratings, and experience — not a black box."),
+      ("Fund, track, and complete the project", "Pay through the platform, track progress, approve the work, and leave a review."),
+    ] %}
+    {% for title, desc in steps %}
+    <li class="relative">
+      <span class="absolute -left-[2.55rem] top-1 w-4 h-4 rounded-full bg-signal border-4 border-paper"></span>
+      <h2 class="font-medium text-ink text-lg">{{ title }}</h2>
+      <p class="mt-1.5 text-sm text-inkmuted leading-relaxed">{{ desc }}</p>
+    </li>
+    {% endfor %}
+  </ol>
+
+  <a href="{{ url_for('auth.register') }}" class="mt-12 inline-block px-6 py-3 rounded-full bg-ink text-paper font-medium hover:bg-ink/90">Get started</a>
+</section>
+{% endblock %}

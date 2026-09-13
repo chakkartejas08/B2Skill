@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Create your account — B2Skill AI{% endblock %}
+
+{% block content %}
+<section class="max-w-md mx-auto px-5 py-16">
+  <h1 class="font-display text-3xl font-semibold text-ink">Create your account</h1>
+  <p class="mt-2 text-inkmuted text-sm">Free for students and businesses. No subscriptions.</p>
+
+  <form method="POST" class="mt-8 space-y-5" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.role.label.text }}</label>
+      {{ form.role(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none", id="role-select") }}
+    </div>
+
+    <div id="business-name-field" class="hidden">
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.business_name.label.text }}</label>
+      {{ form.business_name(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none", placeholder="e.g. Maple & Wheat Bakery") }}
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.full_name.label.text }}</label>
+      {{ form.full_name(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+      {% for e in form.full_name.errors %}<p class="text-xs text-red-600 mt-1">{{ e }}</p>{% endfor %}
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.email.label.text }}</label>
+      {{ form.email(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+      {% for e in form.email.errors %}<p class="text-xs text-red-600 mt-1">{{ e }}</p>{% endfor %}
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.phone.label.text }}</label>
+      {{ form.phone(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.password.label.text }}</label>
+      {{ form.password(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+      {% for e in form.password.errors %}<p class="text-xs text-red-600 mt-1">{{ e }}</p>{% endfor %}
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.confirm_password.label.text }}</label>
+      {{ form.confirm_password(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+      {% for e in form.confirm_password.errors %}<p class="text-xs text-red-600 mt-1">{{ e }}</p>{% endfor %}
+    </div>
+
+    {{ form.submit(class="w-full py-3.5 rounded-full bg-ink text-paper font-medium hover:bg-ink/90 transition-colors cursor-pointer") }}
+  </form>
+
+  <p class="mt-6 text-center text-sm text-inkmuted">Already have an account? <a href="{{ url_for('auth.login') }}" class="text-ink font-medium hover:text-growth">Log in</a></p>
+</section>
+
+<script>
+  const roleSelect = document.getElementById('role-select');
+  const bizField = document.getElementById('business-name-field');
+  function toggleBizField() {
+    bizField.classList.toggle('hidden', roleSelect.value !== 'business');
+  }
+  roleSelect.addEventListener('change', toggleBizField);
+  toggleBizField();
+</script>
+{% endblock %}

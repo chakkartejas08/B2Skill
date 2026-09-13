@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}New Project — B2Skill AI{% endblock %}
+{% block content %}
+<section class="max-w-xl mx-auto px-5 py-14">
+  <h1 class="font-display text-3xl font-semibold text-ink">
+    {% if recommendation %}Create project from recommendation{% else %}Post a new project{% endif %}
+  </h1>
+  <p class="mt-2 text-sm text-inkmuted">
+    {% if recommendation %}We've drafted this from your AI recommendation — review and edit before publishing.{% else %}Describe what you need and required skills; publish and start receiving applications.{% endif %}
+  </p>
+
+  <form method="POST" class="mt-8 space-y-5">
+    {{ form.hidden_tag() }}
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.title.label.text }}</label>
+      {{ form.title(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.description.label.text }}</label>
+      {{ form.description(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none", rows=6) }}
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.category.label.text }}</label>
+      {{ form.category(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-ink mb-2">{{ form.required_skills.label.text }}</label>
+      {{ form.required_skills(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-ink mb-2">{{ form.budget_amount.label.text }}</label>
+        {{ form.budget_amount(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-ink mb-2">{{ form.deadline.label.text }}</label>
+        {{ form.deadline(class="w-full border border-steel rounded-xl px-4 py-3 bg-white focus:border-ink outline-none") }}
+      </div>
+    </div>
+
+    {% set commission_note = "B2Skill AI takes a 9% platform commission from the budget once a student is selected and the project is funded." %}
+    <p class="text-xs text-inkmuted">{{ commission_note }}</p>
+
+    {{ form.submit(class="w-full py-3.5 rounded-full bg-ink text-paper font-medium hover:bg-ink/90 cursor-pointer") }}
+  </form>
+</section>
+{% endblock %}

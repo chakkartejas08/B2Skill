@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Messages — B2Skill AI{% endblock %}
+{% block content %}
+<section class="max-w-2xl mx-auto px-5 py-14">
+  <h1 class="font-display text-3xl font-semibold text-ink">Messages</h1>
+
+  <div class="mt-8 space-y-3">
+    {% for c in conversations %}
+    {% set other_id = c.other_participant_id(current_user.id) %}
+    {% set last = c.last_message() %}
+    <a href="{{ url_for('messages.start_or_view', other_user_id=other_id) }}" class="block border border-steel rounded-xl p-4 bg-white hover:border-ink transition-colors">
+      <div class="flex items-center justify-between">
+        <p class="font-medium text-ink">{{ c.participant_one.full_name if c.participant_two_id == current_user.id else c.participant_two.full_name }}</p>
+        {% if last %}<p class="text-xs text-inkmuted">{{ last.created_at.strftime('%b %d') }}</p>{% endif %}
+      </div>
+      {% if last %}<p class="text-sm text-inkmuted mt-1 truncate">{{ last.body }}</p>{% endif %}
+    </a>
+    {% else %}
+    <p class="text-sm text-inkmuted">No conversations yet.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

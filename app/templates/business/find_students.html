@@ -8,7 +8,11 @@
     {% for s in students %}
     <div class="border border-steel rounded-2xl p-5 bg-white">
       <div class="flex items-center gap-3">
+        {% if s.photo_path %}
+        <img src="{{ url_for('main.uploaded_file', filename=s.photo_path) }}" alt="{{ s.user.full_name }}" class="w-11 h-11 rounded-full object-cover">
+        {% else %}
         <span class="w-11 h-11 rounded-full bg-steel flex items-center justify-center font-medium text-ink">{{ s.user.full_name[:1] }}</span>
+        {% endif %}
         <div>
           <p class="font-medium text-ink">{{ s.user.full_name }}</p>
           <p class="text-xs text-inkmuted">{{ s.college or 'Student' }}</p>

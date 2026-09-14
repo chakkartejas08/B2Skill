@@ -224,136 +224,198 @@ section.bg-ink > * {
   transition: width 0.6s var(--ease);
 }
 
-/* =========================================================================
-   DARK MODE
-   Toggled via <html data-theme="dark">, set by app/static/js/theme.js and
-   the anti-flash inline script in base.html. Overrides the actual utility
-   classes used across every template (not just a bg/text swap), so cards,
-   badges, forms, and flash messages all get a coherent dark treatment
-   rather than a half-done inversion.
-========================================================================= */
+/* ============================================
+   DARK MODE — Cinematic Editorial Theme
+   ============================================ */
 
-.icon-sun { display: none; }
-.icon-moon { display: inline; }
-html[data-theme="dark"] .icon-sun { display: inline; }
-html[data-theme="dark"] .icon-moon { display: none; }
-
-html[data-theme="dark"] {
-  color-scheme: dark;
-}
-html:not([data-theme="dark"]) {
-  color-scheme: light;
-}
-
-html, body {
-  transition: background-color 0.25s ease, color 0.25s ease;
+[data-theme="dark"] {
+  --dm-surface: #0a0a12;
+  --dm-card: #14141f;
+  --dm-card-hover: #191927;
+  --dm-border: #26263a;
+  --dm-border-light: #33334a;
+  --dm-text: #f5f5f7;
+  --dm-text-muted: #9b9bae;
+  --dm-text-faint: #6b6b80;
+  --dm-purple: #7c3aed;
+  --dm-purple-light: #a78bfa;
+  --dm-teal: #2dd4bf;
+  --dm-amber: #fbbf24;
+  --dm-red: #f87171;
 }
 
-html[data-theme="dark"] {
-  /* Page surface + primary text */
-  --dm-surface: #0F1626;
-  --dm-card: #182238;
-  --dm-border: #2A3550;
-  --dm-text: #F1F2F4;
-  --dm-text-muted: #A8AFBB;
-}
-
-/* Blueprint grid + ambient glow re-tuned for a dark surface */
-html[data-theme="dark"] body {
+[data-theme="dark"] body {
   background-color: var(--dm-surface);
+  color: var(--dm-text);
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-}
-html[data-theme="dark"] body::before {
-  background:
-    radial-gradient(640px circle at 12% 8%, rgba(242, 169, 59, 0.12), transparent 60%),
-    radial-gradient(640px circle at 88% 22%, rgba(31, 122, 92, 0.14), transparent 60%);
+    radial-gradient(ellipse 800px 500px at 15% 0%, rgba(124, 58, 237, 0.14), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 90% 20%, rgba(45, 212, 191, 0.10), transparent 60%);
+  background-attachment: fixed;
 }
 
-/* Core surfaces & text */
-html[data-theme="dark"] .bg-paper { background-color: var(--dm-surface) !important; }
-html[data-theme="dark"] .bg-white { background-color: var(--dm-card) !important; }
-html[data-theme="dark"] .text-ink { color: var(--dm-text) !important; }
-html[data-theme="dark"] .text-inkmuted { color: var(--dm-text-muted) !important; }
-html[data-theme="dark"] .border-steel { border-color: var(--dm-border) !important; }
-html[data-theme="dark"] .divide-steel > * { border-color: var(--dm-border) !important; }
-
-/* Opacity-modified steel utilities (badges, pills) */
-html[data-theme="dark"] .bg-steel\/60,
-html[data-theme="dark"] .bg-steel\/50,
-html[data-theme="dark"] .bg-steel\/40 {
-  background-color: rgba(255, 255, 255, 0.08) !important;
+/* Thin gradient line at very top of page, like the reference site */
+[data-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--dm-purple), var(--dm-teal));
+  z-index: 60;
 }
 
-/* Hover borders that were meant to read as "emphasis" — a light border
-   reads better than dark-on-dark. */
-html[data-theme="dark"] .hover\:border-ink:hover,
-html[data-theme="dark"] a.border.border-steel.rounded-2xl:hover,
-html[data-theme="dark"] a.border.border-steel.rounded-xl:hover {
-  border-color: var(--dm-text-muted) !important;
-}
-
-/* Growth (teal) tint blocks */
-html[data-theme="dark"] .bg-growthlight {
-  background-color: rgba(31, 122, 92, 0.16) !important;
-}
-
-/* Status colors — flash messages, badges, reports */
-html[data-theme="dark"] .bg-red-50 { background-color: rgba(239, 68, 68, 0.14) !important; }
-html[data-theme="dark"] .text-red-600 { color: #FCA5A5 !important; }
-html[data-theme="dark"] .text-red-700 { color: #FCA5A5 !important; }
-html[data-theme="dark"] .border-red-200 { border-color: rgba(239, 68, 68, 0.35) !important; }
-
-html[data-theme="dark"] .bg-amber-50 { background-color: rgba(242, 169, 59, 0.14) !important; }
-html[data-theme="dark"] .text-amber-700 { color: #FBBF6B !important; }
-html[data-theme="dark"] .text-amber-800 { color: #FBBF6B !important; }
-html[data-theme="dark"] .border-amber-200 { border-color: rgba(242, 169, 59, 0.35) !important; }
-
-/* Form inputs: dark surface, visible focus */
-html[data-theme="dark"] input,
-html[data-theme="dark"] textarea,
-html[data-theme="dark"] select {
+/* Base surfaces */
+[data-theme="dark"] .bg-paper,
+[data-theme="dark"] .bg-white {
   background-color: var(--dm-card) !important;
+}
+
+[data-theme="dark"] .text-ink {
   color: var(--dm-text) !important;
+}
+
+[data-theme="dark"] .text-inkmuted {
+  color: var(--dm-text-muted) !important;
+}
+
+[data-theme="dark"] .border-steel {
   border-color: var(--dm-border) !important;
 }
-html[data-theme="dark"] input::placeholder,
-html[data-theme="dark"] textarea::placeholder {
-  color: var(--dm-text-muted);
-  opacity: 0.8;
-}
-html[data-theme="dark"] .focus\:border-ink:focus {
-  border-color: var(--signal) !important;
+
+[data-theme="dark"] .bg-steel\/60,
+[data-theme="dark"] .bg-steel\/50,
+[data-theme="dark"] .bg-steel\/40 {
+  background-color: var(--dm-border) !important;
 }
 
-/* Hero glass card — a dark frosted surface instead of white-on-dark */
-html[data-theme="dark"] .hero-fade-in .rounded-3xl {
-  background: rgba(24, 34, 56, 0.75) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+/* Cards — subtle purple-glow lift on hover, matching reference's card style */
+[data-theme="dark"] a.border.border-steel.rounded-2xl,
+[data-theme="dark"] a.border.border-steel.rounded-xl,
+[data-theme="dark"] .border.border-steel.rounded-2xl,
+[data-theme="dark"] .border.border-steel.rounded-xl {
+  background-color: var(--dm-card) !important;
+  border-color: var(--dm-border) !important;
+  transition: all 0.25s ease;
 }
 
-/* Gradient headline: light-to-teal instead of navy-to-teal, so it stays
-   legible against the dark surface. */
-html[data-theme="dark"] h1.font-display.text-ink.text-4xl,
-html[data-theme="dark"] h1.font-display.text-ink[class*="text-6xl"] {
-  background: linear-gradient(135deg, #F1F2F4 0%, var(--growth) 60%, #F1F2F4 100%);
+[data-theme="dark"] a.border.border-steel.rounded-2xl:hover,
+[data-theme="dark"] a.border.border-steel.rounded-xl:hover {
+  background-color: var(--dm-card-hover) !important;
+  border-color: var(--dm-purple-light) !important;
+  box-shadow: 0 8px 30px -8px rgba(124, 58, 237, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Status/highlight backgrounds re-tuned to purple/teal */
+[data-theme="dark"] .bg-growthlight {
+  background-color: rgba(45, 212, 191, 0.12) !important;
+}
+
+[data-theme="dark"] .bg-red-50 {
+  background-color: rgba(248, 113, 113, 0.12) !important;
+}
+[data-theme="dark"] .text-red-600,
+[data-theme="dark"] .text-red-700 {
+  color: var(--dm-red) !important;
+}
+
+[data-theme="dark"] .bg-amber-50 {
+  background-color: rgba(251, 191, 36, 0.12) !important;
+}
+[data-theme="dark"] .text-amber-700,
+[data-theme="dark"] .text-amber-800 {
+  color: var(--dm-amber) !important;
+}
+
+/* Form inputs */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background-color: var(--dm-card) !important;
+  border-color: var(--dm-border) !important;
+  color: var(--dm-text) !important;
+}
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+  border-color: var(--dm-purple-light) !important;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25) !important;
+}
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--dm-text-faint) !important;
+}
+
+/* Hero glass card */
+[data-theme="dark"] .hero-glass-card {
+  background: rgba(20, 20, 31, 0.6) !important;
+  border-color: var(--dm-border-light) !important;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 60px -20px rgba(124, 58, 237, 0.3);
+}
+
+/* Gradient headline — purple to teal, like "right creative" in the reference */
+[data-theme="dark"] .text-4xl.font-display,
+[data-theme="dark"] [class*="text-6xl"] {
+  background: linear-gradient(90deg, var(--dm-purple-light), var(--dm-teal));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Card shadows read better as soft black depth than a navy tint on dark */
-html[data-theme="dark"] a.border.border-steel.rounded-2xl,
-html[data-theme="dark"] a.border.border-steel.rounded-xl {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-html[data-theme="dark"] a.border.border-steel.rounded-2xl:hover,
-html[data-theme="dark"] a.border.border-steel.rounded-xl:hover {
-  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+/* Navbar */
+[data-theme="dark"] nav {
+  background-color: rgba(10, 10, 18, 0.85) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--dm-border);
 }
 
-/* Sticky navbar / footer surfaces */
-html[data-theme="dark"] header.bg-paper\/95 {
-  background-color: rgba(15, 22, 38, 0.9) !important;
+/* Primary buttons — solid purple pill with subtle shine, matches "Start a project" */
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] button[type="submit"].bg-amber,
+[data-theme="dark"] a.bg-amber {
+  background: linear-gradient(135deg, var(--dm-purple), #6d28d9) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 4px 20px -4px rgba(124, 58, 237, 0.5);
+}
+[data-theme="dark"] .btn-primary:hover {
+  background: linear-gradient(135deg, #8b5cf6, var(--dm-purple)) !important;
+  box-shadow: 0 6px 24px -4px rgba(124, 58, 237, 0.65);
+}
+
+/* Secondary / outline buttons */
+[data-theme="dark"] .btn-secondary {
+  background: transparent !important;
+  border: 1px solid var(--dm-border-light) !important;
+  color: var(--dm-text) !important;
+}
+[data-theme="dark"] .btn-secondary:hover {
+  border-color: var(--dm-purple-light) !important;
+  background: rgba(124, 58, 237, 0.08) !important;
+}
+
+/* Avatar circles — gradient like the reference's "P" "K" "V" "M" chips */
+[data-theme="dark"] .avatar-circle {
+  background: linear-gradient(135deg, var(--dm-purple), var(--dm-teal)) !important;
+  color: #fff !important;
+}
+
+/* Small monospace section labels — "01 / DISCIPLINES", "SEQ_01" style */
+[data-theme="dark"] .eyebrow-label {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--dm-teal) !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+/* Star ratings — keep gold, reads correctly on dark */
+[data-theme="dark"] .star-rating {
+  color: var(--dm-amber) !important;
+}
+
+/* Card shadows generally */
+[data-theme="dark"] .shadow-md,
+[data-theme="dark"] .shadow-lg {
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5) !important;
 }
